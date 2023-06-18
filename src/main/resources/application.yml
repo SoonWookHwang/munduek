@@ -1,9 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5435/dev
+    url: jdbc:postgresql://localhost:5435/postgres
     username: hello
     password: local
-    platform: postgres
 
   jpa:
     hibernate:
@@ -12,6 +11,9 @@ spring:
       hibernate:
         #        show_sql: true
         format_sql: true
+  sql:
+    init:
+      platform: postgres
 
 logging:
   level:
