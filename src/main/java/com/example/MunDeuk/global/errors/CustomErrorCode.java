@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum CustomErrorCode {
   /* 400 BAD_REQUEST : 잘못된 요청 */
+  ILLEGAL_INPUT_VALUE(HttpStatus.BAD_REQUEST,"규칙에 어긋난 입력값입니다."),
+  DUPLICATE_ID_EXIST(HttpStatus.BAD_REQUEST,"이미 존재하는 아이디입니다"),
+  PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST,"비밀번호가 일치하지 않습니다."),
   /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
   INVALID_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "권한 정보가 없는 토큰입니다."),
 
@@ -19,7 +22,7 @@ public enum CustomErrorCode {
   /* 409 : CONFLICT : Resource의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
   DUPLICATE_RESOURCE(HttpStatus.CONFLICT, "데이터가 이미 존재합니다."),
 
-  FEED_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 게시글을 찾을 수 없습니다."),
+  NOTE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 게시글을 찾을 수 없습니다."),
 
   LOCATION_NOT_FOUND(HttpStatus.NOT_FOUND, "위치정보를 찾을 수 없습니다."),
   ;

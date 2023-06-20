@@ -25,14 +25,15 @@ public class Note {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "contents",length = 500)
+  @Column(name = "contents", length = 500)
   private String content;
-
   @Column
   private boolean isDeleted;
-
   @Column
   private Long viewCount;
+
+  @Column
+  private int ownCount;
 
   @Column
   private Double latitude;
@@ -50,14 +51,18 @@ public class Note {
   private Member originId;
 
   @Builder
-  public Note(ForWriteRequestDto requestDto){
+  public Note(ForWriteRequestDto requestDto) {
     this.content = requestDto.getContent();
     this.viewCount = 0L;
     this.isDeleted = false;
   }
 
-  public void addViewCount(Note note){
+  public void addViewCount(Note note) {
     note.viewCount += 1;
+  }
+
+  public void addOwnCount(Note note) {
+    note.ownCount += 1;
   }
 
 //  @Column(name = "feed_title")
