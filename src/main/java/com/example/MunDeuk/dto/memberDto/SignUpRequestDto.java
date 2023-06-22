@@ -11,6 +11,7 @@ public class SignUpRequestDto {
   private String username;
   private String password;
   private String passwordCheck;
+  private String role;
 
 
   public boolean validInputValue(String username, String password) {

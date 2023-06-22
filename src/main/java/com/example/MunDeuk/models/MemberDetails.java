@@ -9,8 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+
 @Entity
 @Table(name = "member_details")
+@Getter
 public class MemberDetails {
 
   @Id
@@ -23,7 +26,7 @@ public class MemberDetails {
   @Column(nullable = false, unique = true)
   private String nickname;
 
-  @OneToOne(mappedBy = "member_details", orphanRemoval = true)
+  @OneToOne(orphanRemoval = true)
   @JoinColumn(name = "locker_id")
   private Locker locker;
 

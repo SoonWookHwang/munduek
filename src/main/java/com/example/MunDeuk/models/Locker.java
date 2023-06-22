@@ -24,6 +24,10 @@ public class Locker {
   @JoinColumn(name = "saved_notes")
   private List<Note> savedNotes;
 
+  @OneToMany
+  @JoinColumn(name = "viewed_notes")
+  private List<Note> viewedNotes;
+
 
   public void savedNotesInit(){
     this.savedNotes = new ArrayList<>();

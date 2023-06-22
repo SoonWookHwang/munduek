@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class NoteController {
 
   private final NoteService noteService;
-  private final NoteResponseEntitiy<NoteResponseDto> noteResponseEntitiy;
 
   @PostMapping("/feeds")
   @ResponseBody
   public NoteResponseEntitiy<?> createFeed(@RequestBody ForWriteRequestDto dto){
-      return noteResponseEntitiy.sucess(noteService.createFeed(dto));
+      return NoteResponseEntitiy.sucess(noteService.createFeed(dto));
   }
 
 }

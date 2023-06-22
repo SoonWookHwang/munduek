@@ -1,21 +1,20 @@
 package com.example.MunDeuk.global.responseEntitiy;
 
 import com.example.MunDeuk.global.errors.MunDeukRuntimeException;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@Component
+@RequiredArgsConstructor
 public class MemberResponseEntity<T> {
-  private HttpStatus httpStatus;
-  private T body;
-  private String msg;
+
+  private final HttpStatus httpStatus;
+  private final T body;
+  private final String msg;
+
 
   public static <T> MemberResponseEntity<T> sucess(T body) {
     return new MemberResponseEntity<>(HttpStatus.OK, body,"성공");

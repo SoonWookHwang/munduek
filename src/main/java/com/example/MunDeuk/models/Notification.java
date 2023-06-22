@@ -22,7 +22,7 @@ public class Notification {
   @Column
   private String detail;
 
-  @OneToMany(mappedBy = "notifications")
+  @OneToMany
   private List<Member> noticeableId;
 
   @Column
@@ -31,7 +31,7 @@ public class Notification {
   @Column
   private String notificationDetail;
 
-  @OneToMany(mappedBy = "notifications")
+  @OneToMany
   private List<Member> notifiedMemberId;
 
 }

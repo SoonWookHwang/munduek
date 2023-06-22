@@ -5,6 +5,7 @@ import com.example.MunDeuk.dto.noteDto.ForWriteRequestDto;
 import com.example.MunDeuk.global.errors.CustomErrorCode;
 import com.example.MunDeuk.global.errors.MunDeukRuntimeException;
 import com.example.MunDeuk.models.Member;
+import com.example.MunDeuk.models.MemberDetails;
 import com.example.MunDeuk.models.Note;
 import com.example.MunDeuk.repository.NoteRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class NoteService {
   @Transactional
   public NoteResponseDto createFeed(ForWriteRequestDto dto) {
     Note note = Note.builder().requestDto(dto).build();
-    Member writer = new Member();
+    MemberDetails writer = new MemberDetails();
     return new NoteResponseDto(noteRepository.save(note),writer);
   }
 
@@ -28,7 +29,7 @@ public class NoteService {
   public NoteResponseDto readFeed(Long noteId) {
     Note found = noteRepository.findById(noteId)
         .orElseThrow(() -> new MunDeukRuntimeException(CustomErrorCode.NOTE_NOT_FOUND));
-    Member writer = new Member();
+    MemberDetails writer = new MemberDetails();
     return new NoteResponseDto(found,writer);
   }
 

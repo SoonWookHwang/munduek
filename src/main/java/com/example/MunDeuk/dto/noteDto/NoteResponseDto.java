@@ -1,6 +1,7 @@
 package com.example.MunDeuk.dto.noteDto;
 
 import com.example.MunDeuk.models.Member;
+import com.example.MunDeuk.models.MemberDetails;
 import com.example.MunDeuk.models.Note;
 import lombok.Data;
 
@@ -14,8 +15,8 @@ public class NoteResponseDto {
 //  private String soundtrack;
 
 
-  public NoteResponseDto(Note note, Member member){
-    this.setWriter(member.getNickname());
+  public NoteResponseDto(Note note, MemberDetails memberDetails){
+    this.setWriter(memberDetails.getNickname());
     this.setContents(note.getContent());
   }
 

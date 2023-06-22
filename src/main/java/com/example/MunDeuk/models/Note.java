@@ -41,7 +41,6 @@ public class Note {
   @Column
   private Double longitude;
 
-
   @ManyToOne
   @JoinColumn(name = "owner_id")
   private Member ownerId;

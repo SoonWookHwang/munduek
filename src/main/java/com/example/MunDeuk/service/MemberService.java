@@ -1,24 +1,32 @@
 package com.example.MunDeuk.service;
 
+import com.example.MunDeuk.dto.memberDto.LoginRequestDto;
 import com.example.MunDeuk.dto.memberDto.MemberDetailsReqeustDto;
 import com.example.MunDeuk.dto.memberDto.SignUpRequestDto;
+import com.example.MunDeuk.dto.memberDto.TokenDto;
 import com.example.MunDeuk.global.errors.CustomErrorCode;
 import com.example.MunDeuk.global.errors.MunDeukRuntimeException;
 import com.example.MunDeuk.models.Member;
 import com.example.MunDeuk.models.MemberDetails;
-import com.example.MunDeuk.repository.LockerRepository;
 import com.example.MunDeuk.repository.MemberDetailsRepository;
 import com.example.MunDeuk.repository.MemberRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
 
   private final MemberRepository memberRepository;
   private final MemberDetailsRepository memberDetailsRepository;
+  private final BCryptPasswordEncoder passwordEncoder;
 
   private final LockerService lockerService;
 
@@ -28,6 +36,7 @@ public class MemberService {
     String username = dto.getUsername();
     String password = dto.getPassword();
     String passwordCheck = dto.getPasswordCheck();
+    String roles = dto.getRole();
     if(!dto.validInputValue(username, password)){
       throw new MunDeukRuntimeException(CustomErrorCode.ILLEGAL_INPUT_VALUE);
     }
@@ -37,7 +46,22 @@ public class MemberService {
     if(!password.equals(passwordCheck)){
       throw new MunDeukRuntimeException(CustomErrorCode.PASSWORD_MISMATCH);
     }
-    Member newMember = Member.builder().username(username).password(password).memberDetails(createMemberDetails()).build();
+    Member newMember;
+    if (dto.getRole().equalsIgnoreCase("admin")) {
+      newMember = Member.builder()
+          .username(username)
+          .password(passwordEncoder.encode(password))
+          .roles(Collections.singletonList("ROLE_ADMIN"))
+          .memberDetails(createMemberDetails())
+          .build();
+    } else {
+      newMember = Member.builder()
+          .username(username)
+          .password(passwordEncoder.encode(password))
+          .roles(Collections.singletonList("ROLE_USER"))
+          .memberDetails(createMemberDetails())
+          .build();
+    }
     return memberRepository.save(newMember);
   }
 
@@ -62,5 +86,7 @@ public class MemberService {
   public MemberDetails getMemberDetails(Long memberId){
     return memberDetailsRepository.findById(memberId).orElseThrow(()->new MunDeukRuntimeException(CustomErrorCode.USER_NOT_FOUND));
   }
+
+
 
 }

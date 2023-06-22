@@ -1,32 +1,29 @@
 package com.example.MunDeuk.global.responseEntitiy;
 
+import com.example.MunDeuk.global.errors.MunDeukRuntimeException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 
 @Setter
 @Getter
 @RequiredArgsConstructor
-@Component
 public class NoteResponseEntitiy<T> {
 
-  private HttpStatus httpStatus;
-  private T body;
-  private String msg;
+  private final HttpStatus httpStatus;
+  private final T body;
+  private final String msg;
 
-  public NoteResponseEntitiy<T> sucess(T body) {
-    this.httpStatus = HttpStatus.OK;
-    this.msg = "정상";
-    this.body = body;
-    return this;
+  public static <T> NoteResponseEntitiy<T> sucess(T body) {
+    return new NoteResponseEntitiy<>(HttpStatus.OK, body,"성공");
+  }
+  public static <T> NoteResponseEntitiy<T> fail(MunDeukRuntimeException e) {
+    return new NoteResponseEntitiy<>(e.getErrorCode().getHttpStatus(), null, e.getErrorCode().getMessage());
   }
 
-  public NoteResponseEntitiy<T> error(Exception e, HttpStatus httpStatus) {
-    this.httpStatus = httpStatus;
-    this.msg = e.getMessage();
-    return this;
+  public static <T> NoteResponseEntitiy<T> error(HttpStatus status, String message) {
+    return new NoteResponseEntitiy<>(status, null, message);
   }
 
 //  @Builder
