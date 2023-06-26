@@ -1,7 +1,7 @@
 package com.example.MunDeuk.security.jwt;
 
-import com.example.MunDeuk.repository.MemberRepository;
-import com.example.MunDeuk.repository.RefreshTokenRepository;
+import com.example.MunDeuk.repository.postgres.MemberRepository;
+import com.example.MunDeuk.repository.redis.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

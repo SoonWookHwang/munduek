@@ -2,12 +2,11 @@ package com.example.MunDeuk.service;
 
 import com.example.MunDeuk.global.errors.CustomErrorCode;
 import com.example.MunDeuk.global.errors.MunDeukRuntimeException;
-import com.example.MunDeuk.models.Locker;
-import com.example.MunDeuk.models.Member;
-import com.example.MunDeuk.models.Note;
-import com.example.MunDeuk.repository.LockerRepository;
-import com.example.MunDeuk.repository.MemberRepository;
-import com.example.MunDeuk.repository.NoteRepository;
+import com.example.MunDeuk.models.postgres.Locker;
+import com.example.MunDeuk.models.postgres.Note;
+import com.example.MunDeuk.repository.postgres.LockerRepository;
+import com.example.MunDeuk.repository.postgres.MemberRepository;
+import com.example.MunDeuk.repository.postgres.NoteRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

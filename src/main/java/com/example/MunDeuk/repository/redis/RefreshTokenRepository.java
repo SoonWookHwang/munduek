@@ -1,4 +1,4 @@
-package com.example.MunDeuk.repository;
+package com.example.MunDeuk.repository.redis;
 
 import java.util.Objects;
 import java.util.Set;

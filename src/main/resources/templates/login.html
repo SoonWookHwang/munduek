@@ -8,24 +8,18 @@
 
 <body>
 <div>
-  <h1>Login</h1>
+  <h1>로그인 페이지</h1>
   <form th:action="@{/login}" method="post">
     <div>
-      <label>Username: </label>
+      <label>아이디: </label>
       <input type="text" name="username" />
     </div>
     <div>
-      <label>Password: </label>
+      <label>비밀번호: </label>
       <input type="password" name="password" />
     </div>
     <div>
-      <button type="submit">Login</button>
-    </div>
-    <div th:if="${param.error}">
-      <p>Invalid username and password.</p>
-    </div>
-    <div th:if="${param.logout}">
-      <p>Successfully logged out.</p>
+      <button type="submit">로그인</button>
     </div>
   </form>
 </div>

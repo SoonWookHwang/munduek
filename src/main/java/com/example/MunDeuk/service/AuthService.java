@@ -4,15 +4,14 @@ import com.example.MunDeuk.dto.memberDto.LoginRequestDto;
 import com.example.MunDeuk.dto.memberDto.TokenDto;
 import com.example.MunDeuk.global.errors.CustomErrorCode;
 import com.example.MunDeuk.global.errors.MunDeukRuntimeException;
-import com.example.MunDeuk.models.Member;
-import com.example.MunDeuk.repository.MemberRepository;
-import com.example.MunDeuk.repository.RefreshTokenRepository;
+import com.example.MunDeuk.models.postgres.Member;
+import com.example.MunDeuk.repository.postgres.MemberRepository;
+import com.example.MunDeuk.repository.redis.RefreshTokenRepository;
 import com.example.MunDeuk.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.el.parser.Token;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,6 @@ public class AuthService {
   private final MemberRepository memberRepository;
   private final RefreshTokenRepository refreshTokenRepository;
   private final BCryptPasswordEncoder passwordEncoder;
-
   private final JwtTokenProvider jwtTokenProvider;
 
 

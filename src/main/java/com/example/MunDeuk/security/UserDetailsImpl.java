@@ -1,6 +1,6 @@
 package com.example.MunDeuk.security;
 
-import com.example.MunDeuk.models.Member;
+import com.example.MunDeuk.models.postgres.Member;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;

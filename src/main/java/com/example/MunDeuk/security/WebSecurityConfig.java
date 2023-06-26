@@ -1,9 +1,8 @@
 package com.example.MunDeuk.security;
 
-import com.example.MunDeuk.repository.RefreshTokenRepository;
+import com.example.MunDeuk.repository.redis.RefreshTokenRepository;
 import com.example.MunDeuk.security.jwt.JwtAuthenticationFilter;
 import com.example.MunDeuk.security.jwt.JwtTokenProvider;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,7 +24,7 @@ public class WebSecurityConfig {
 
   private final RefreshTokenRepository refreshTokenRepository;
 
-  private final String[] allowedUrls = {"/","/login"};
+  private final String[] allowedUrls = {"/","/login","/signup"};
 
   public WebSecurityConfig(JwtTokenProvider jwtTokenProvider, RefreshTokenRepository refreshTokenRepository) {
     this.jwtTokenProvider = jwtTokenProvider;
@@ -46,22 +45,23 @@ public class WebSecurityConfig {
   @Bean
   protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf().disable();
+    http.cors().disable();
     http.authorizeHttpRequests().requestMatchers("/h2-console/*").permitAll();
     http.headers(headers -> headers
         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
     //-> http.headers(headers->frame).frameOptions().disable();
     http.authorizeHttpRequests(requests ->
-            requests.requestMatchers(HttpMethod.GET, allowedUrls).permitAll()
+            requests.requestMatchers(allowedUrls).permitAll()
                 .anyRequest().authenticated())
         // 세션인증 사용하지 않음
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .formLogin()
-        .loginPage("/login.html")
+        .loginPage("/login").defaultSuccessUrl("/")
         .and()
         .logout()
-        .logoutSuccessUrl("/index.html")
+        .logoutSuccessUrl("/index")
         .and()
         // 토큰인증 먼저 실행
         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, refreshTokenRepository),

@@ -1,6 +1,6 @@
-package com.example.MunDeuk.repository;
+package com.example.MunDeuk.repository.postgres;
 
-import com.example.MunDeuk.models.Member;
+import com.example.MunDeuk.models.postgres.Member;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

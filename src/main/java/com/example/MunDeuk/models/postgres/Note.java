@@ -1,4 +1,4 @@
-package com.example.MunDeuk.models;
+package com.example.MunDeuk.models.postgres;
 
 import com.example.MunDeuk.dto.noteDto.ForWriteRequestDto;
 import jakarta.persistence.Column;
@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class Note {
   private Long id;
 
   @Column(name = "contents", length = 500)
+  @Lob
   private String content;
   @Column
   private boolean isDeleted;

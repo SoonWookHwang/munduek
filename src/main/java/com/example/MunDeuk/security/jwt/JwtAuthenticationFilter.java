@@ -1,6 +1,6 @@
 package com.example.MunDeuk.security.jwt;
 
-import com.example.MunDeuk.repository.RefreshTokenRepository;
+import com.example.MunDeuk.repository.redis.RefreshTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       FilterChain filterChain) throws ServletException, IOException {
 
     // 로그인 페이지에 대한 예외 처리
-    if (isLoginPage(servletRequest)) {
+    if (isPermitedPage(servletRequest)) {
       filterChain.doFilter(servletRequest, servletResponse);
       return;
     }
@@ -64,11 +64,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       filterChain.doFilter(servletRequest, servletResponse);
     }
   }
-  private boolean isLoginPage(HttpServletRequest request) {
+  private boolean isPermitedPage(HttpServletRequest request) {
     String requestURI = request.getRequestURI();
     String contextPath = request.getContextPath();
     String loginPageUrl = contextPath + "/login";
+    String homePageUrl = contextPath + "/";
+    String signupPageUrl = contextPath + "/signup";
 
-    return requestURI.equals(loginPageUrl);
+    return requestURI.equals(loginPageUrl) || requestURI.equals(contextPath) || requestURI.equals(homePageUrl)
+        || requestURI.equals(signupPageUrl);
   }
 }

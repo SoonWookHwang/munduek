@@ -1,4 +1,4 @@
-package com.example.MunDeuk.models;
+package com.example.MunDeuk.models.postgres;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;

@@ -3,11 +3,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <title>문득</title>
 </head>
+<script>
+  function login() {
+    $.ajax({
+      type: "GET",
+      url: "/login",
+      success: function (response) {
+        // 요청이 성공했을 때의 처리
+        console.log("로그인 페이지 호출 성공",response);
+        // 여기서 필요한 추가 로직을 작성하세요.
+        console.log(response.url);
+      },
+      error: function (xhr, status, error) {
+        // 요청이 실패했을 때의 처리
+        console.error("로그인 요청 실패:", error);
+        // 여기서 필요한 추가 로직을 작성하세요.
+      }
+    });
+  }
+
+  function signup() {
+    $.ajax({
+      type: "GET",
+      url: "/signup",
+      success: function (response) {
+        // 요청이 성공했을 때의 처리
+        console.log("로그인 페이지 호출 성공");
+        // 여기서 필요한 추가 로직을 작성하세요.
+        console.log(response.url);
+      },
+      error: function (xhr, status, error) {
+        // 요청이 실패했을 때의 처리
+        console.error("로그인 요청 실패:", error);
+        // 여기서 필요한 추가 로직을 작성하세요.
+      }
+    });
+  }
+</script>
 <body>
 <div>
-  홈페이지입니다.
+  문득 홈페이지.
 </div>
+<img src="https://taegon.kim/wp-content/uploads/2018/05/image-5.png" width=300x height=300px>
+<div>
+<!--  <button class="signup" onclick="signup()" name="회원가입">회원가입</button>-->
+<!--  <button class="login" onclick="login()" name="로그인">로그인 하기</button>-->
+  <a th:href="@{/signup}">회원가입페이지</a>
+  <a th:href="@{/login}">로그인페이지</a>
+</div>
+
 </body>
+
 </html>

@@ -1,20 +1,20 @@
 package com.example.MunDeuk.controller;
 
 import com.example.MunDeuk.service.MemberService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
 public class PageController {
+
   private final MemberService memberService;
 
 
   @GetMapping("/")
-  public String homepage(){
+  public String homepage() {
     return "index";
   }
 
@@ -25,8 +25,13 @@ public class PageController {
 //
 
   @GetMapping("/login")
-  public String getLoginPage() {
-    return "/login";
+  public String getLoginPage(HttpServletResponse res) {
+    return "login";
+  }
+
+  @GetMapping("/signup")
+  public String getSigunupPage() {
+    return "signup";
   }
 
 //  @PostMapping("/login")

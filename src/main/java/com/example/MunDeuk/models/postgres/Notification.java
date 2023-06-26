@@ -1,4 +1,4 @@
-package com.example.MunDeuk.models;
+package com.example.MunDeuk.models.postgres;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

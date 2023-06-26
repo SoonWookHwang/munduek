@@ -1,7 +1,7 @@
 package com.example.MunDeuk.security;
 
-import com.example.MunDeuk.models.Member;
-import com.example.MunDeuk.repository.MemberRepository;
+import com.example.MunDeuk.models.postgres.Member;
+import com.example.MunDeuk.repository.postgres.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

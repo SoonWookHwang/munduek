@@ -10,25 +10,31 @@ import com.example.MunDeuk.service.AuthService;
 import com.example.MunDeuk.service.MemberService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@Slf4j
 public class MemberController {
 
   private final MemberService memberService;
   private final AuthService authService;
 
-  @PostMapping
-  public MemberResponseEntity<?> signUpMember(SignUpRequestDto dto) {
+  @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+  public MemberResponseEntity<?> signUpMember(@ModelAttribute SignUpRequestDto dto) {
+    log.info("[MemberController.signupMember] api 진입");
+    log.info("유저네임=" + dto.getUsername());
     try {
       //수행작업
+      log.info("[MemberController.signupMember] memberSerice signupMember 메서드 호출");
       return MemberResponseEntity.sucess(memberService.signUpMember(dto));
     } catch (MunDeukRuntimeException e) {
       //예상된 에러

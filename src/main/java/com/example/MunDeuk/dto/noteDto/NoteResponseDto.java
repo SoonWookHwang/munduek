@@ -1,8 +1,7 @@
 package com.example.MunDeuk.dto.noteDto;
 
-import com.example.MunDeuk.models.Member;
-import com.example.MunDeuk.models.MemberDetails;
-import com.example.MunDeuk.models.Note;
+import com.example.MunDeuk.models.postgres.MemberDetails;
+import com.example.MunDeuk.models.postgres.Note;
 import lombok.Data;
 
 @Data
