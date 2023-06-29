@@ -4,16 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <title>문득</title>
+  <title>에러페이지</title>
 </head>
 <body>
-<div>
-  문득 홈페이지.
+<div style="font-size: 25px; align-content: center; color: orange">
+  에러페이지
 </div>
 <img src="https://taegon.kim/wp-content/uploads/2018/05/image-5.png" width=300x height=300px>
 <div>
-  <a th:href="@{/page/signup}">회원가입페이지</a>
-  <a th:href="@{/page/login}">로그인페이지</a>
+  <div th:text="${msg}">에러메시지</div>
 </div>
 
 </body>

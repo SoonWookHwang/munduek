@@ -9,11 +9,13 @@ import com.example.MunDeuk.repository.postgres.MemberRepository;
 import com.example.MunDeuk.repository.postgres.NoteRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LockerService {
 
   private final LockerRepository lockerRepository;
@@ -22,8 +24,8 @@ public class LockerService {
 
 
   public Locker createLocker(){
+    log.info("[LockerService] createLocker 진입");
     Locker newLocker = new Locker();
-    newLocker.savedNotesInit();
     return lockerRepository.save(newLocker);
   }
 

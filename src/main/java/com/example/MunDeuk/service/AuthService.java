@@ -27,10 +27,13 @@ public class AuthService {
 
 
   public TokenDto login(LoginRequestDto dto, HttpServletResponse response){
+    log.info("[AuthService] login 진입");
     String username = dto.getUsername();
+    log.info("[AuthService] username =" + username);
     Member member = memberRepository.findByUsername(username).orElseThrow(()->new MunDeukRuntimeException(
         CustomErrorCode.USER_NOT_FOUND));
     if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
+      log.info("[AuthService] 패스워드 확인");
       throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
     }
     String existRefreshToken = refreshTokenRepository.findRefreshTokenByUserId(member.getId());

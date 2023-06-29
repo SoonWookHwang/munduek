@@ -38,7 +38,12 @@ public class Member {
   @Column(nullable = false)
   private String password;
 
-  @ElementCollection(fetch = FetchType.EAGER)
+  //  @ElementCollection(fetch = FetchType.LAZY)
+//  @Builder.Default
+//  @JsonProperty(access = Access.WRITE_ONLY)
+//  private List<String> roles = new ArrayList<>();
+  @Column(nullable = false)
+  @ElementCollection(fetch = FetchType.LAZY)
   @Builder.Default
   @JsonProperty(access = Access.WRITE_ONLY)
   private List<String> roles = new ArrayList<>();
@@ -48,9 +53,8 @@ public class Member {
   private MemberDetails memberDetails;
 
 
-
   @Builder
-  public Member(String username, String password, List<String> roles, MemberDetails memberDetails){
+  public Member(String username, String password, List<String> roles, MemberDetails memberDetails) {
     this.username = username;
     this.password = password;
     this.memberDetails = memberDetails;

@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,16 +25,17 @@ public class WebSecurityConfig {
 
   private final RefreshTokenRepository refreshTokenRepository;
 
-  private final String[] allowedUrls = {"/","/login","/signup"};
+  private final String[] allowedUrls = {"/page/**", "/login", "/signup"};
 
-  public WebSecurityConfig(JwtTokenProvider jwtTokenProvider, RefreshTokenRepository refreshTokenRepository) {
+  public WebSecurityConfig(JwtTokenProvider jwtTokenProvider,
+      RefreshTokenRepository refreshTokenRepository) {
     this.jwtTokenProvider = jwtTokenProvider;
     this.refreshTokenRepository = refreshTokenRepository;
   }
 
   @Bean
   public BCryptPasswordEncoder encodePassword() {
-    return new BCryptPasswordEncoder(13);
+    return new BCryptPasswordEncoder();
   }
 
   @Bean
@@ -46,19 +48,22 @@ public class WebSecurityConfig {
   protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf().disable();
     http.cors().disable();
-    http.authorizeHttpRequests().requestMatchers("/h2-console/*").permitAll();
+     http.authorizeHttpRequests(auth->auth.requestMatchers(HttpMethod.POST,"/login","/signup").permitAll())
+        .authorizeHttpRequests(auth->auth.anyRequest().authenticated());
     http.headers(headers -> headers
         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
     //-> http.headers(headers->frame).frameOptions().disable();
-    http.authorizeHttpRequests(requests ->
-            requests.requestMatchers(allowedUrls).permitAll()
-                .anyRequest().authenticated())
+    http
+//        .authorizeHttpRequests()
+//        .requestMatchers(allowedUrls).permitAll()
+////        .anyRequest().authenticated()
+//        .and()
         // 세션인증 사용하지 않음
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .formLogin()
-        .loginPage("/login").defaultSuccessUrl("/")
+        .failureUrl("/login?error")
         .and()
         .logout()
         .logoutSuccessUrl("/index")
@@ -67,6 +72,11 @@ public class WebSecurityConfig {
         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, refreshTokenRepository),
             UsernamePasswordAuthenticationFilter.class);
     return http.build();
+  }
+
+  @Bean
+  protected WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**", "/", "/page/**");
   }
 
 

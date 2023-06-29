@@ -20,7 +20,7 @@ public class NoteService {
   @Transactional
   public NoteResponseDto createFeed(ForWriteRequestDto dto) {
     Note note = Note.builder().requestDto(dto).build();
-    MemberDetails writer = new MemberDetails();
+    MemberDetails writer = new MemberDetails(null,null);
     return new NoteResponseDto(noteRepository.save(note),writer);
   }
 
@@ -28,7 +28,7 @@ public class NoteService {
   public NoteResponseDto readFeed(Long noteId) {
     Note found = noteRepository.findById(noteId)
         .orElseThrow(() -> new MunDeukRuntimeException(CustomErrorCode.NOTE_NOT_FOUND));
-    MemberDetails writer = new MemberDetails();
+    MemberDetails writer = new MemberDetails(null,null);
     return new NoteResponseDto(found,writer);
   }
 

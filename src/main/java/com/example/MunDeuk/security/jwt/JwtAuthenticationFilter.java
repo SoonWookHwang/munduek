@@ -28,12 +28,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest servletRequest,
       HttpServletResponse servletResponse,
       FilterChain filterChain) throws ServletException, IOException {
+    LOGGER.info("[JwtFilter] filter 진입");
 
-    // 로그인 페이지에 대한 예외 처리
+     // 로그인과 회원가입 요청에대한 필터 생략
     if (isPermitedPage(servletRequest)) {
+      LOGGER.info("[JwtFilter] 허용된 페이지인지 확인");
       filterChain.doFilter(servletRequest, servletResponse);
       return;
     }
+    LOGGER.info("[JwtFilter] 토큰 읽기 시도");
     String token = jwtTokenProvider.resolveToken(servletRequest);
     LOGGER.info("[doFilterInternal] token 값 추출 완료. token : {}", token);
 
@@ -47,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       LOGGER.info("[doFilterInternal] token 값 유효성 체크 완료");
     }
     // 엑세스 토큰이 만료되었을 때 리프레시 토큰을 사용하여 새로운 엑세스 토큰 발급
-    if (jwtTokenProvider.validateToken(token)) {
+    if (token != null && jwtTokenProvider.validateToken(token)) {
       if (refreshToken != null && jwtTokenProvider.validateRefreshToken(refreshToken)) {
         String newAccessToken = jwtTokenProvider.generateAccessTokenFromRefreshToken(refreshToken);
 
@@ -68,10 +71,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     String requestURI = request.getRequestURI();
     String contextPath = request.getContextPath();
     String loginPageUrl = contextPath + "/login";
-    String homePageUrl = contextPath + "/";
     String signupPageUrl = contextPath + "/signup";
 
-    return requestURI.equals(loginPageUrl) || requestURI.equals(contextPath) || requestURI.equals(homePageUrl)
+    return requestURI.equals(loginPageUrl) || requestURI.equals(contextPath)
         || requestURI.equals(signupPageUrl);
   }
 }

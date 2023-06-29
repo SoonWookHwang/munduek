@@ -27,7 +27,6 @@ public class MemberService {
   private final LockerService lockerService;
 
 
-  @Transactional
   public Member signUpMember(SignUpRequestDto dto) {
     log.info("[MemberService.signupMember] 메서드 진입");
     String username = dto.getUsername();
@@ -36,15 +35,15 @@ public class MemberService {
     log.info(password);
     log.info("[MemberService.signupMember] 아이디,패스워드 추출 ");
     String passwordCheck = dto.getPasswordCheck();
-//    if(!dto.validInputValue(username, password)){
-//      throw new MunDeukRuntimeException(CustomErrorCode.ILLEGAL_INPUT_VALUE);
-//    }
-//    if(memberRepository.existsByUsername(username)){
-//      throw new MunDeukRuntimeException(CustomErrorCode.DUPLICATE_ID_EXIST);
-//    }
-//    if(!password.equals(passwordCheck)){
-//      throw new MunDeukRuntimeException(CustomErrorCode.PASSWORD_MISMATCH);
-//    }
+    if(!dto.validInputValue(username, password)){
+      throw new MunDeukRuntimeException(CustomErrorCode.ILLEGAL_INPUT_VALUE);
+    }
+    if(memberRepository.existsByUsername(username)){
+      throw new MunDeukRuntimeException(CustomErrorCode.DUPLICATE_ID_EXIST);
+    }
+    if(!password.equals(passwordCheck)){
+      throw new MunDeukRuntimeException(CustomErrorCode.PASSWORD_MISMATCH);
+    }
     Member newMember;
     log.info("[MemberService.signupMember] newMember 객체 생성 ");
     if (dto.getRole() != null && dto.getRole().equalsIgnoreCase("admin")) {
@@ -54,6 +53,7 @@ public class MemberService {
           .password(passwordEncoder.encode(password))
           .roles(Collections.singletonList("ROLE_ADMIN"))
           .memberDetails(createMemberDetails())
+//          .memberDetails(null)
           .build();
     } else {
       log.info("[MemberService.signupMember] member entity 생성");
@@ -62,6 +62,7 @@ public class MemberService {
           .password(passwordEncoder.encode(password))
           .roles(Collections.singletonList("ROLE_USER"))
           .memberDetails(createMemberDetails())
+//          .memberDetails(null)
           .build();
     }
     log.info("[MemberService.signupMember] if문 탈출 진입");
@@ -69,8 +70,9 @@ public class MemberService {
   }
 
   public MemberDetails createMemberDetails() {
-    MemberDetails newMemberDetails = new MemberDetails();
-    newMemberDetails.setLocker(newMemberDetails, lockerService.createLocker());
+    log.info("[MemberService] createMemberDetails 진입");
+    MemberDetails newMemberDetails = new MemberDetails(null,null);
+    newMemberDetails.setLocker(lockerService.createLocker());
     return memberDetailsRepository.save(newMemberDetails);
   }
 

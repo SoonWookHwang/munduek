@@ -10,10 +10,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "member_details")
 @Getter
+@NoArgsConstructor
 public class MemberDetails {
 
   @Id
@@ -23,17 +25,24 @@ public class MemberDetails {
   @Column
   private String email;
 
-  @Column(nullable = false, unique = true)
+  @Column(unique = true)
   private String nickname;
 
   @OneToOne(orphanRemoval = true)
   @JoinColumn(name = "locker_id")
   private Locker locker;
 
-
-  public void setLocker(MemberDetails target, Locker locker){
-    target.locker= locker;
+  public MemberDetails(String email, String nickname) {
+    this.email = email;
+    this.nickname = nickname;
   }
+
+
+  public void setLocker(Locker locker){
+    this.locker = locker;
+  }
+
+
 
 
   public void updateMemberDetails(MemberDetails target, MemberDetailsReqeustDto dto){

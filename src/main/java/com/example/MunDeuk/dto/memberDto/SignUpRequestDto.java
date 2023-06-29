@@ -20,7 +20,7 @@ public class SignUpRequestDto {
       return false;
     }
     Pattern passwordPattern = Pattern.compile(
-        "^(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[a-z\\d@$!%*?&]{8,20}$");
+        "^(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&#₩])[a-z\\d@$!%*?&]{8,20}$");
     if (!passwordPattern.matcher(password).matches()) {
       return false;
     }
